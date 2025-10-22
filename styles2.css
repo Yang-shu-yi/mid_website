@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color:#0f0f0f;
 }
 
 body {
@@ -89,7 +90,7 @@ section {
 
 .spotlight-titles {
     position: absolute;
-    left: 15vw; /* 移到左側，保留一點邊距 */
+    left: 10vw; /* 移到左側，保留一點邊距 */
     width: 30%; /* 限制左側寬度 */
     height: 100%;
     display: flex;
