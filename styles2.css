@@ -1,167 +1,179 @@
+/* === Reset & 基本設定 === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color:#0f0f0f;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* ❌ 不要在萬用選擇器上設背景，會變成一堆黑色遮罩 */
+  /* background-color: #0f0f0f; */
 }
 
 body {
-    font-family: "PP Neue Montreal", sans-serif;
+  font-family: "PP Neue Montreal", sans-serif;
+  color: #fff;
+  background-color: #0f0f0f; /* ✅ 把背景色只放在 body */
 }
 
 img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ✅ 圖片完整顯示，不裁切 */
 }
 
 h1 {
-    font-size: 4rem;
-    font-weight: 500;
-    line-height: 150px;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 150px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
 }
 
 section {
-    position: relative;
-    width: 100vw;
-    height: 100svh;
-    overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
 }
 
+/* === Intro & Outro === */
 .intro,
 .outro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0f0f0f;
-    color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 2rem;
+  text-align: center;
 }
 
-.spotlight-intro-text-wrapper {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 0.5rem;
-}
-
-.spotlight-intro-text {
-    flex: 1;
-    position: relative;
-    will-change: transform;
-}
-
-.spotlight-intro-text:nth-child(1) {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.spotlight-bg-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    transform: scale(1);
-    z-index: 0;
-}
-
-.spotlight-bg-img img {
-    transform: scale(1);
-    will-change: transform;
-}
-
+/* === Spotlight 版面（左文右圖） === */
 .spotlight {
-    position: relative;
-    width: 100vw;
-    height: 100svh;
-    overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10vw;
+}
+
+/* === 左側標題區 === */
+.spotlight-titles-container {
+  position: relative;
+  width: 40%;
+  height: 100%;          /* ✅ 讓內部文字上下位移時不被外層誤裁 */
+  overflow: hidden;       /* ✅ 只在這一層裁，呈現「窗口」效果 */
 }
 
 .spotlight-titles {
-    position: absolute;
-    left: 10vw; /* 移到左側，保留一點邊距 */
-    width: 30%; /* 限制左側寬度 */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5rem;
-    padding-left: 0; /* 移除不必要的左邊距 */
-    z-index: 2;
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
+
 .spotlight-titles h1 {
-    color: #fff;
-    opacity: 0.25;
-    transition: opacity 0.3s ease;
+  color: #fff;
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
 }
 
+/* === 右側圖片區 === */
 .spotlight-images {
-    position: absolute;
-    left: 50vw; /* 與標題對齊 */
-    width: 30%; /* 與標題寬度一致 */
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+  position: relative;
+  width: 40%;
+  height: 100%;          /* 讓動畫路徑有足夠空間 */
+  display: block;
+  overflow: visible;      /* ✅ 圖片移動不被容器截掉 */
+  pointer-events: none;
 }
+
+/* 單張行星圖片的「包裹元素」：做動畫用 */
 .spotlight-img {
-    position: absolute;
-    width: 200px;
-    height: 150px;
-    margin: 10px;
-    will-change: transform;
+  position: absolute;
+  width: 260px;          /* ✅ 做成方形框，避免高寬不一造成的視覺切割 */
+  height: 260px;
+  /* ❗ 一定要透明，不然會變成黑色遮罩蓋住圖片 */
+  background: transparent;
+  will-change: transform, opacity;
 }
 
-.spotlight-titles-container {
-    position: absolute;
-    top: 0;
-    left: 5vw;
-    width: 30%;
-    height: 100%;
-    overflow: hidden;
-    --before-opacity: 0;
-    --after-opacity: 0;
+/* === 背景圖 === */
+.spotlight-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform: scale(1);
+  z-index: 0;
 }
 
+.spotlight-bg-img img {
+  transform: scale(1);
+  will-change: transform;
+}
+
+/* === 開場左右飛入文字 === */
+.spotlight-intro-text-wrapper {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 3;
+}
+
+.spotlight-intro-text {
+  flex: 1;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.spotlight-intro-text:nth-child(1) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* === 斜線裝飾（保留） === */
 .spotlight-titles-container::before,
 .spotlight-titles-container::after {
-    content: "";
-    position: absolute;
-    width: 100svh;
-    height: 2.5px;
-    background-color: #fff;
-    pointer-events: none;
-    transform: opacity 0.3s ease;
-    z-index: 10;
+  content: "";
+  position: absolute;
+  width: 100svh;
+  height: 2.5px;
+  background-color: #fff;
+  pointer-events: none;
+  transform: opacity 0.3s ease;
+  z-index: 10;
 }
 
 .spotlight-titles-container::before {
-    top: 0;
-    left: 0;
-    transform: rotate(-45deg) translate(-7rem);
-    opacity: var(--before-opacity);
+  top: 0;
+  left: 0;
+  transform: rotate(-45deg) translate(-7rem);
+  opacity: var(--before-opacity, 0);
 }
+
 .spotlight-titles-container::after {
-    bottom: 0;
-    right: 0;
-    transform: rotate(45deg) translate(-7rem);
-    opacity: var(--after-opacity);
+  bottom: 0;
+  right: 0;
+  transform: rotate(45deg) translate(-7rem);
+  opacity: var(--after-opacity, 0);
 }
 
 .spotlight-header {
-    display: none;
-}
-
-.intro, .outro {
-    padding: 2rem;
-    text-align: center;
+  display: none;
 }
