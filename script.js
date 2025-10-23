@@ -15,8 +15,8 @@ function setupScrollTriggerNew() { // 改成 function 宣告，提升到全局
         trigger: '.hero',
         pin: true,
         start: 'top top',
-        end: `+=${window.innerHeight * 7}px`,
-        pinSpacing: true,
+        end: `+=${window.innerHeight * 4}px`,
+        pinSpacing: false,
         scrub: 1,
         onUpdate: (self) => {
             const progress = self.progress;
