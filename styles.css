@@ -19,7 +19,7 @@ canvas {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  cursor: none;
+  
 }
 
 /* 導覽列樣式 */
@@ -79,6 +79,9 @@ nav {
   justify-content: center;
   /* 垂直置中 */
   text-align: center;
+  transition: transform 260ms cubic-bezier(.2,.9,.3,1);
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .hero-content h1,
@@ -119,33 +122,51 @@ nav {
   text-decoration: none;
   font-weight: 700;
   margin: 1rem auto 0;
-  transition:
-    transform 220ms cubic-bezier(.2,.9,.3,1),
-    background-color 180ms ease,
-    box-shadow 220ms ease,
-    color 180ms ease;
-  will-change: transform;
+
+  /* 平滑過渡 */
+  transition: transform 200ms cubic-bezier(.2,.9,.3,1), 
+              background-color 180ms ease, 
+              box-shadow 220ms ease,
+              color 180ms ease,
+              padding 180ms ease,
+              font-size 180ms ease;
+  will-change: transform, padding, font-size;
+  transform-origin: center center;
 }
 
-/* 明顯的放大效果：更大 scale、更高位移、更強陰影 */
+/* Hover / focus：更明顯放大（同時放大文字與內距） */
 .btn.primary.view-planets:hover,
 .btn.primary.view-planets:focus {
-  transform: translateY(-8px) scale(1.12);
-  background: #e54f4f; /* 稍深的背景色 */
+  /* scale 與位移 */
+  transform: translateY(-5px) scale(1.02) !important;
+  /* 增加按鈕大小感受：放大字與 padding */
+  font-size: 1.06em;
+  padding: 16px 32px;
+  /* 顏色與下底線視覺 */
+  background: #e54f4f;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
   text-underline-offset: 6px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  text-decoration-thickness: 2px;
+  box-shadow: 0 28px 60px rgba(0,0,0,0.26);
 }
 
-/* 點擊時的回饋（輕微縮小） */
+/* 點擊回饋 */
 .btn.primary.view-planets:active {
-  transform: translateY(-2px) scale(1.04);
+  transform: translateY(-6px) scale(1.12) !important;
+  transition-duration: 120ms;
 }
 
+/* 行動裝置上降低效果以免影響布局 */
 @media (max-width: 600px) {
   .btn.primary.view-planets {
     width: calc(100% - 32px);
     padding: 12px;
+  }
+  .btn.primary.view-planets:hover,
+  .btn.primary.view-planets:focus {
+    transform: none !important;
+    font-size: 1em;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   }
 }
