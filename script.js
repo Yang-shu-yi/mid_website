@@ -111,8 +111,10 @@ const render = () => {
   const canvasWidth = window.innerWidth;
   const canvasHeight = window.innerHeight;
 
-  // 清除並繪製
+  // 清除畫布（避免殘影）
   context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  // 僅繪製對應影格圖片（不要額外畫任何 shape）
   const img = images[videoFrames.frame];
   if (img && img.complete && img.naturalWidth > 0) {
     const imagesAspect = img.naturalWidth / img.naturalHeight;
@@ -130,6 +132,10 @@ const render = () => {
       drawX = 0;
       drawY = (canvasHeight - drawHeight) / 2;
     }
+
+    // 關閉任何 stroke/fill 設定，確保只有 drawImage
+    context.beginPath();
+    context.closePath();
 
     context.drawImage(img, drawX, drawY, drawWidth, drawHeight);
   }

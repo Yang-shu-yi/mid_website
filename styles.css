@@ -19,6 +19,7 @@ canvas {
   width: 100vw;
   height: 100vh;
   z-index: -1;
+  cursor: none;
 }
 
 /* 導覽列樣式 */
@@ -70,8 +71,13 @@ nav {
   z-index: 1;
   perspective: 1000px;
   min-height: 100vh;
-  display: grid;
-  place-content: center;
+  display: flex;
+  /* 改用 flex 便於置中 */
+  flex-direction: column;
+  align-items: center;
+  /* 水平置中 */
+  justify-content: center;
+  /* 垂直置中 */
   text-align: center;
 }
 
@@ -92,10 +98,54 @@ nav {
 
 /* 結尾區 (outro) */
 .outro {
-  min-height: 100vh;
+  min-height: 0.1px;
   display: grid;
   place-content: center;
   padding: 4rem 1rem;
   background: #fafafa;
   text-align: center;
+}
+
+.btn.primary.view-planets {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  padding: 12px 24px;
+  background: #ff6b6b;
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  margin: 1rem auto 0;
+  transition:
+    transform 220ms cubic-bezier(.2,.9,.3,1),
+    background-color 180ms ease,
+    box-shadow 220ms ease,
+    color 180ms ease;
+  will-change: transform;
+}
+
+/* 明顯的放大效果：更大 scale、更高位移、更強陰影 */
+.btn.primary.view-planets:hover,
+.btn.primary.view-planets:focus {
+  transform: translateY(-8px) scale(1.12);
+  background: #e54f4f; /* 稍深的背景色 */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* 點擊時的回饋（輕微縮小） */
+.btn.primary.view-planets:active {
+  transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 600px) {
+  .btn.primary.view-planets {
+    width: calc(100% - 32px);
+    padding: 12px;
+  }
 }
