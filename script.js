@@ -11,6 +11,9 @@ let hasAutoScrolled = false;
 function setupScrollTriggerNew() {
   const nav = document.querySelector('nav');
   const headers = document.querySelectorAll('.hero-content h1, .hero-content p');
+  const viewButton = document.querySelector('.hero-content .view-planets');
+  if (viewButton) gsap.set(viewButton, { opacity: 0, y: 20, pointerEvents: 'none' });
+
   const scrollDistance = window.innerHeight * 5; // 控制整段動畫滾動距離
 
   ScrollTrigger.create({
@@ -31,9 +34,19 @@ function setupScrollTriggerNew() {
         render();
       }
 
-      // 導航列淡出
+      // 在最後 10% 讓按鈕漸現
+      if (viewButton) {
+        const btnProgress = Math.max(0, Math.min((progress - 0.9) / 0.1, 1));
+        gsap.set(viewButton, {
+          opacity: btnProgress,
+          y: (1 - btnProgress) * 20,
+          pointerEvents: btnProgress > 0.05 ? 'auto' : 'none'
+        });
+      }
+
+      // 導覽列淡出
       if (progress >= 0.1) {
-        const navOpacity = 1 - (progress / 0.1);
+        const navOpacity = Math.max(0, 1 - (progress / 0.1));
         gsap.set(nav, { opacity: navOpacity });
       } else {
         gsap.set(nav, { opacity: 1 });
@@ -56,12 +69,24 @@ function setupScrollTriggerNew() {
       // 影片結束 → 自動滾動到 outro（只執行一次）
       if (progress >= 1 && !hasAutoScrolled) {
         hasAutoScrolled = true;
-        gsap.to(window, {
-          scrollTo: ".outro",
-          duration: 1.2,
-          ease: "power2.inOut",
-          onComplete: () => setTimeout(() => { hasAutoScrolled = false; }, 300)
-        });
+
+        // 若 ScrollToPlugin 已註冊則使用 gsap.scrollTo，否則使用原生平滑滾動備援
+        if (typeof ScrollToPlugin !== 'undefined') {
+          gsap.to(window, {
+            scrollTo: ".outro",
+            duration: 1.2,
+            ease: "power2.inOut",
+            onComplete: () => setTimeout(() => { hasAutoScrolled = false; }, 300)
+          });
+        } else {
+          const outro = document.querySelector('.outro');
+          if (outro) {
+            window.scrollTo({ top: outro.getBoundingClientRect().top + window.pageYOffset, behavior: 'smooth' });
+            setTimeout(() => { hasAutoScrolled = false; }, 1500);
+          } else {
+            hasAutoScrolled = false;
+          }
+        }
       }
     }
   });
@@ -81,10 +106,12 @@ const onLoad = () => {
 /* 將對應影格繪製到畫布上 */
 const render = () => {
   const canvas = document.querySelector('canvas');
+  if (!canvas) return;
   const context = canvas.getContext('2d');
   const canvasWidth = window.innerWidth;
   const canvasHeight = window.innerHeight;
 
+  // 清除並繪製
   context.clearRect(0, 0, canvasWidth, canvasHeight);
   const img = images[videoFrames.frame];
   if (img && img.complete && img.naturalWidth > 0) {
@@ -110,22 +137,33 @@ const render = () => {
 
 /* 初始化流程 */
 document.addEventListener('DOMContentLoaded', () => {
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  // 安全註冊 GSAP plugins（避免編輯器出現未定義紅線）
+  const _plugins = [];
+  if (typeof ScrollTrigger !== 'undefined') _plugins.push(ScrollTrigger);
+  if (typeof ScrollToPlugin !== 'undefined') _plugins.push(ScrollToPlugin);
+  if (_plugins.length) gsap.registerPlugin(..._plugins);
 
   // Lenis 平滑滾動（若無則退回原生滾動）
   let lenisInstance;
   if (typeof Lenis !== 'undefined') {
     lenisInstance = new Lenis();
-    lenisInstance.on('scroll', ScrollTrigger.update);
+    lenisInstance.on('scroll', () => {
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+    });
     gsap.ticker.add((time) => {
       lenisInstance.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
   } else {
-    window.addEventListener('scroll', ScrollTrigger.update);
+    if (typeof ScrollTrigger !== 'undefined') {
+      window.addEventListener('scroll', ScrollTrigger.update);
+    } else {
+      window.addEventListener('scroll', () => {});
+    }
   }
 
   const canvas = document.querySelector('canvas');
+  if (!canvas) return;
   const context = canvas.getContext('2d');
 
   const setCanvasSize = () => {
