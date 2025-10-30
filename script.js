@@ -70,22 +70,22 @@ function setupScrollTriggerNew() {
       if (progress >= 1 && !hasAutoScrolled) {
         hasAutoScrolled = true;
 
-        // 若 ScrollToPlugin 已註冊則使用 gsap.scrollTo，否則使用原生平滑滾動備援
+        // 目標改為 <footer class="footer">（優先用 gsap.scrollTo）
+        const footerEl = document.querySelector('footer.footer');
+        if (!footerEl) {
+          hasAutoScrolled = false;
+          return;
+        }
         if (typeof ScrollToPlugin !== 'undefined') {
           gsap.to(window, {
-            scrollTo: ".outro",
+            scrollTo: footerEl,
             duration: 1.2,
             ease: "power2.inOut",
             onComplete: () => setTimeout(() => { hasAutoScrolled = false; }, 300)
           });
         } else {
-          const outro = document.querySelector('.outro');
-          if (outro) {
-            window.scrollTo({ top: outro.getBoundingClientRect().top + window.pageYOffset, behavior: 'smooth' });
-            setTimeout(() => { hasAutoScrolled = false; }, 1500);
-          } else {
-            hasAutoScrolled = false;
-          }
+          window.scrollTo({ top: footerEl.getBoundingClientRect().top + window.pageYOffset, behavior: 'smooth' });
+          setTimeout(() => { hasAutoScrolled = false; }, 1500);
         }
       }
     }
@@ -322,19 +322,58 @@ document.addEventListener('DOMContentLoaded', () => {
           const cy = (r.top + r.bottom) / 2;
           const nearCenter = Math.abs(cx - window.innerWidth / 2) < 300 && Math.abs(cy - window.innerHeight / 2) < 300;
           const small = Math.max(r.width, r.height) < 220;
-          if (inHero || (nearCenter && small)) removals.push(node);
+          if (inHero && nearCenter && small) {
+            removals.push(node);
+          }
         } catch (e) { /* ignore */ }
       }
       removals.forEach(n => n.parentNode && n.parentNode.removeChild(n));
-      return removals.length;
     }
 
-    // 初次掃描並移除
-    scanAndRemove(document.querySelector('.hero-content') || document.body);
+    // 初次掃描
+    scanAndRemove();
 
-    // 監聽 DOM 變動，若有新節點加入則再次掃描（30s 後停止 observer）
-    const mo = new MutationObserver(() => scanAndRemove(document.querySelector('.hero-content') || document.body));
+    // 監聽 DOM 變化，移除後續可能注入的「+」
+    const mo = new MutationObserver(() => scanAndRemove());
     mo.observe(document.body, { childList: true, subtree: true, characterData: true });
-    setTimeout(() => mo.disconnect(), 30000);
+
+    // 20s 後停止 observer（節省資源）
+    setTimeout(() => mo.disconnect(), 20000);
+  })();
+
+  // Back to Top click handler（優先使用 gsap.scrollTo，否則使用原生 smooth scroll）
+  (function setupBackToTop() {
+    const btn = document.querySelector('.btn.back-to-top');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const target = 0;
+      if (typeof ScrollToPlugin !== 'undefined' && typeof gsap !== 'undefined') {
+        gsap.to(window, { scrollTo: target, duration: 0.8, ease: 'power2.out' });
+      } else {
+        window.scrollTo({ top: target, behavior: 'smooth' });
+      }
+    });
+  })();
+
+  // 將 back-to-top 移動到 body（避免被 nav opacity/pin 覆蓋）並去除重複
+  (function ensureBackToTopOnBody() {
+    const all = Array.from(document.querySelectorAll('.btn.back-to-top'));
+    if (!all.length) return;
+    // 保留第一個作為唯一按鈕，移除其他重複的
+    const keeper = all[0];
+    for (let i = 1; i < all.length; i++) {
+      all[i].remove();
+    }
+    // 若尚未在 body 下，移動到 body（保留事件處理器）
+    if (keeper.parentElement !== document.body) {
+      document.body.appendChild(keeper);
+    }
+    // 確保樣式與最高層級
+    keeper.style.position = 'fixed';
+    keeper.style.top = keeper.style.top || '14px';
+    keeper.style.right = keeper.style.right || '16px';
+    keeper.style.zIndex = keeper.style.zIndex || '99999';
   })();
 });

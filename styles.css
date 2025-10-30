@@ -100,7 +100,7 @@ nav {
 }
 
 /* 結尾區 (outro) */
-.outro {
+.footer {
   min-height: 0.1px;
   display: grid;
   place-content: center;
@@ -115,8 +115,9 @@ nav {
   justify-content: center;
   width: 220px;
   padding: 12px 24px;
-  background: #ff6b6b;
-  color: #ffffff;
+  background: #000;      /* 黑色底 */
+  color: #fff;           /* 白色文字 */
+  
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 999px;
   text-decoration: none;
@@ -143,7 +144,7 @@ nav {
   font-size: 1.06em;
   padding: 16px 32px;
   /* 顏色與下底線視覺 */
-  background: #e54f4f;
+  background: rgb(51, 0, 51);
   text-decoration: underline;
   text-underline-offset: 6px;
   text-decoration-thickness: 2px;
@@ -168,5 +169,47 @@ nav {
     font-size: 1em;
     padding: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+}
+
+/* 固定在右上角的 Back to Top（永遠顯示） */
+.btn.back-to-top {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 99999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background: #000;      /* 黑色底 */
+  color: #fff;           /* 白色文字 */
+  border-radius: 20px;   /* 增加圓角 */
+  border: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+/* Hover / focus 狀態 */
+.btn.back-to-top:hover,
+.btn.back-to-top:focus {
+  transform: translateY(-4px) scale(1.03);
+  background: #111; /* 深一點的黑 */
+  box-shadow: 0 14px 36px rgba(0,0,0,0.32);
+  color: #fff;
+}
+
+/* 行動裝置調整 */
+@media (max-width: 600px) {
+  .btn.back-to-top {
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    font-size: 0.95rem;
   }
 }
