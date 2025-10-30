@@ -168,6 +168,33 @@ const onLoad = () => {
     }
 };
 
+/* 在 outro 中生成所有星球縮圖（會包含你提供的那些圖片） */
+function populateOutroWithThumbnails() {
+  const outro = document.querySelector('.outro');
+  if (!outro) return;
+
+  // 只建立 gallery 容器（不再插入左側標題）
+  outro.innerHTML = `
+    <div class="planet-gallery" aria-label="Planet gallery"></div>
+  `;
+  const gallery = outro.querySelector('.planet-gallery');
+
+  spotlightItems.forEach((item, index) => {
+    const link = document.createElement('a');
+    link.className = 'planet-thumb';
+    link.href = `#planet-${index}`;
+    link.setAttribute('aria-label', item.name);
+
+    link.innerHTML = `
+      <figure>
+        <img src="${item.img}" alt="${item.name}">
+        <figcaption>${item.name}</figcaption>
+      </figure>
+    `;
+    gallery.appendChild(link);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -196,4 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = spotlightItems[i].img;
         images.push(img);
     }
+
+    populateOutroWithThumbnails();
 });
