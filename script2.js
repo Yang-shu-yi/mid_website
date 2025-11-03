@@ -1,12 +1,12 @@
 const spotlightItems = [
-    { name: "Mercury", img: "./img/Mercury.jpg" },
-    { name: "Venus", img: "./img/Venus.jpg" },
-    { name: "Earth", img: "./img/Earth.jpg" },
-    { name: "Mars", img: "./img/Mars.png" },
-    { name: "Jupiter", img: "./img/Jupiter.png" },
-    { name: "Saturn", img: "./img/Saturn.jpg" },
-    { name: "Uranus", img: "./img/Uranus.png" },
-    { name: "Neptune", img: "./img/Neptune.png" },
+    { name: "Mercury", img: "./img/Mercury.png", description: "水星：太陽系中最小，且離太陽最近的行星。" },
+    { name: "Venus", img: "./img/Venus.png", description: "金星：被濃密大氣層覆蓋，表面溫度極高，是地球的姊妹星。" },
+    { name: "Earth", img: "./img/Earth.png", description: "地球：我們生活的藍色星球，是已知唯一擁有生命的行星。" },
+    { name: "Mars", img: "./img/Mars.png", description: "火星：有著紅色外觀，是未來人類探索與殖民的潛在目標。" },
+    { name: "Jupiter", img: "./img/Jupiter.png", description: "木星：太陽系中最大的行星，以其大紅斑著稱。" },
+    { name: "Saturn", img: "./img/Saturn.png", description: "土星：以其壯觀、清晰的行星環系統聞名於世。" }, // 🚀 修正：將 : 改為 /
+    { name: "Uranus", img: "./img/Uranus.png", description: "天王星：一顆冰巨星，以其極端傾斜的自轉軸獨樹一格。" },
+    { name: "Neptune", img: "./img/Neptune.png", description: "海王星：距離太陽最遠的行星，有著強勁的風暴。" },
 ];
 
 let images = [];
@@ -168,6 +168,89 @@ const onLoad = () => {
     }
 };
 
+/* 在 outro 中生成所有星球縮圖（會包含你提供的那些圖片） */
+function populateOutroWithThumbnails() {
+    const outro = document.querySelector('.outro');
+    if (!outro) return;
+
+    // 只建立 gallery 容器
+    outro.innerHTML = `
+        <div class="planet-gallery" aria-label="Planet gallery"></div>
+    `;
+    const gallery = outro.querySelector('.planet-gallery');
+
+    spotlightItems.forEach((item, index) => {
+        const link = document.createElement('a');
+        link.className = 'planet-thumb';
+        link.href = `#planet-${index}`;
+        link.setAttribute('aria-label', item.name);
+
+        // 更新結構：加入簡介文字 (div.planet-info)
+        link.innerHTML = `
+            <figure>
+                <img src="${item.img}" alt="${item.name}">
+                <figcaption>${item.name}</figcaption>
+            </figure>
+            <div class="planet-info">
+                <p>${item.description}</p>
+            </div>
+        `;
+        gallery.appendChild(link);
+    });
+}
+
+// --- 新增的按鈕元素 ---
+const createBackButton = (lenisInstance) => {
+    const btn = document.createElement('a');
+    btn.href = "index.html"; // 您的目標首頁
+    btn.className = 'back-to-earth-btn';
+    btn.innerHTML = `
+        <span class="text">BACK TO EARTH</span>
+        <span class="icon" aria-hidden="true">🌐</span>
+    `;
+    document.body.appendChild(btn);
+
+    // 點擊時平滑回到頂部 (同時導向 index.html)
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (lenisInstance) {
+            // 使用 Lenis 進行平滑捲動
+            lenisInstance.scrollTo(0, { duration: 1.5, easing: (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2 });
+        } else {
+            // 使用原生平滑捲動
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 延遲導航，讓平滑滾動完成
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 1500); 
+    });
+    
+    return btn;
+};
+
+// --- 顯示/隱藏邏輯 ---
+const handleBackToEarthButton = (lenisInstance) => {
+    const btn = document.querySelector('.back-to-earth-btn');
+    if (!btn) return;
+
+    // 距離底部 1.5 個視窗高度時顯示
+    const threshold = document.documentElement.scrollHeight - window.innerHeight * 1.5; 
+
+    // 獲取當前捲動位置
+    const currentScroll = lenisInstance ? lenisInstance.scroll : (window.scrollY || document.documentElement.scrollTop);
+
+    if (currentScroll > threshold) {
+        // 顯示按鈕 (透過 CSS .show 類名控制)
+        btn.classList.add('show');
+    } else {
+        // 隱藏按鈕
+        btn.classList.remove('show');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -196,4 +279,21 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = spotlightItems[i].img;
         images.push(img);
     }
+
+    populateOutroWithThumbnails();
+    
+    // 1. 🚀 修正：在 DOMContentLoaded 內創建按鈕，並傳遞 Lenis 實例
+    createBackButton(lenisInstance);
+    
+    // 2. 🚀 修正：監聽捲動事件，並傳遞 Lenis 實例
+    const scrollHandler = () => handleBackToEarthButton(lenisInstance);
+    
+    if (typeof Lenis !== 'undefined' && lenisInstance) {
+        lenisInstance.on('scroll', scrollHandler);
+    } else {
+        window.addEventListener('scroll', scrollHandler);
+    }
+    
+    // 立即執行一次，檢查初始位置
+    scrollHandler(); 
 });
