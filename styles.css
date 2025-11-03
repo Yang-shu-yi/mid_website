@@ -88,10 +88,22 @@ nav {
 .hero-content p {
   transform-style: preserve-3d;
   margin: 0.25rem 0;
+  font-family: MF;
+  color: #fff;
+  text-shadow: 
+        /* 內層黑暈：較小的模糊，高透明度 */
+        0 0 4px rgba(0, 0, 0, 0.4), 
+        
+        /* 中層黑暈：中等模糊，中等透明度 */
+        0 0 10px rgba(0, 0, 0, 0.6), 
+        
+        /* 外層黑暈：較大的模糊，低透明度，增加深度 */
+        0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .hero-content h1 {
   font-size: clamp(32px, 6vw, 72px);
+  
 }
 
 .hero-content p {
@@ -149,6 +161,7 @@ nav {
   text-underline-offset: 6px;
   text-decoration-thickness: 2px;
   box-shadow: 0 28px 60px rgba(0,0,0,0.26);
+  font-family: 'MF', sans-serif;
 }
 
 /* 點擊回饋 */
@@ -179,19 +192,29 @@ nav {
   right: 16px;
   z-index: 99999;
   display: inline-flex;
-  align-items: center;
+  
   justify-content: center;
-  padding: 10px 18px;
-  background: #000;      /* 黑色底 */
-  color: #fff;           /* 白色文字 */
-  border-radius: 20px;   /* 增加圓角 */
+  
+  
   border: none;
   box-shadow: 0 8px 20px rgba(0,0,0,0.22);
   text-decoration: none;
   font-weight: 700;
-  cursor: pointer;
+  
   pointer-events: auto;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  font-family: MF;
+    background-color: rgba(255, 255, 255, 0.05); /* 輕微透明的背景 */
+    backdrop-filter: blur(5px); /* 高級感磨砂玻璃效果 */
+    border: 1px solid rgba(0, 0, 0, 0.5); /* 細緻的邊框 */
+    border-radius: 50px; /* 圓角膠囊形狀 */
+    color: #000000;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    align-items: center;
+    cursor: pointer;
+    
 }
 
 /* Hover / focus 狀態 */
@@ -212,4 +235,11 @@ nav {
     border-radius: 16px;
     font-size: 0.95rem;
   }
+}
+
+@font-face {
+    font-family: 'MF'; 
+    src: url('fonts/Dune_Rise.otf') format('opentype'); 
+    font-weight: normal;
+    font-style: normal; 
 }

@@ -1,6 +1,6 @@
 const frameCount = 101;
 const currentFrame = index =>
-  `/ezgif-split/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
+  `./ezgif-split/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
 
 let images = [];
 let videoFrames = { frame: 0 };
@@ -14,6 +14,7 @@ function setupScrollTriggerNew() {
   const viewButton = document.querySelector('.hero-content .view-planets');
   if (viewButton) gsap.set(viewButton, { opacity: 0, y: 20, pointerEvents: 'none' });
 
+  const scrollDistance = window.innerHeight * 5; // 控制整段動畫滾動距離
 
   ScrollTrigger.create({
     trigger: '.hero',
