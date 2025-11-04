@@ -1,6 +1,6 @@
-const frameCount = 101;
+const frameCount = 139;
 const currentFrame = index =>
-  `./ezgif-split/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
+  `./MWMW/MWMW${(index + 1).toString().padStart(3, '0')}.jpg`;
 
 let images = [];
 let videoFrames = { frame: 0 };

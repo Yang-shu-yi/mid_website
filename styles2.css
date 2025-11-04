@@ -22,7 +22,7 @@ h1 {
     padding: 0;
     display: flex;
     align-items: center;
-    font-family:MF;
+    font-family: MF;
 }
 
 p {
@@ -49,8 +49,6 @@ section {
     text-align: center;
 }
 
-
-
 .spotlight-intro-text-wrapper {
     position: absolute;
     width: 100%;
@@ -64,7 +62,7 @@ section {
     flex: 1;
     position: relative;
     will-change: transform;
-    font-family:MF;
+    font-family: MF;
 }
 
 .spotlight-intro-text:nth-child(1) {
@@ -103,16 +101,14 @@ section {
     gap: 5rem;
     padding-left: 0; /* 移除不必要的左邊距 */
     z-index: 2;
-    font-family:MF;
-    
+    font-family: MF;
 }
+
 .spotlight-titles h1 {
     color: #fff;
-    opacity: 0.25; 
-    /* 🚀 修正 4: 增加過渡時間到 0.8s，讓 JS 控制的淡入更柔和 */
-    transition: opacity 0.8s ease; 
+    opacity: 0; /* 修正為初始隱藏，由 JS 瞬間控制 */ 
     cursor: pointer;
-    font-family:MF;
+    font-family: MF;
     font-size: 2.7rem;
 }
 
@@ -210,11 +206,11 @@ section {
 }
 
 .planet-gallery {
-    margin: 1.5rem auto 0;
+    margin: 0.7rem auto 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 欄 */
     grid-auto-rows: minmax(200px, 250px); 
-    gap: 1rem;
+    gap: 2.5rem;
     align-items: start;
     max-width: 1280px; 
 }
@@ -226,25 +222,25 @@ section {
     color: inherit;
     border-radius: 12px;
     overflow: hidden; 
-    background: #000000;
+    background: transparent; /* 🚀 修正: 將背景設為透明 */
     box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     transition: transform 200ms ease, box-shadow 200ms ease;
     height: 100%;
-    font-family:MF;
+    font-family: MF;
     position: relative; 
     
-    /* 🚀 修正靜止和懸停時的白邊：強制 GPU 渲染 */
+    /* 修正靜止和懸停時的白邊：強制 GPU 渲染 */
     will-change: transform, box-shadow; 
     transform: translateZ(0); 
 }
 
 /* 圖片區塊固定高度並裁切 (保持一致外觀) */
 .planet-thumb img {
-    width: 100%;
-    height: 200px;
+    width: 90%;
+    height: 185px;
     object-fit: cover;
     display: block;
-    background: #000;
+    background: #00000000; /* 圖片的背景仍為黑色，可以讓未載入或透明圖片有基礎色 */
 }
 
 /* 標題區塊固定 padding */
@@ -253,7 +249,8 @@ section {
     font-weight: 600;
     font-size: 0.98rem;
     text-align: center;
-    background: #fff;
+    background: transparent; /* 🚀 修正: 將 figcaption 的背景也設為透明 */
+    color: #fff; /* 修正：如果背景透明，文字顏色需要調整為可見 */
 }
 
 /* -------------------------------------- */
@@ -272,7 +269,7 @@ section {
     visibility: hidden;
     
     padding: 1.5rem;
-    background-color: rgba(0, 0, 0, 0.9); /* 黑色半透明背景 */
+    background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明背景 */
     color: #fff; 
     
     /* 確保簡介框與圖卡有相同的圓角，防止露邊 */
@@ -300,7 +297,7 @@ section {
 /* hover 效果 (圖卡向上跳) - 移除縮放，保持簡潔 */
 .planet-thumb:hover,
 .planet-thumb:focus {
-    transform: translateY(-6px); /* 🚀 恢復：只保留向上跳 */
+    transform: translateY(-6px); /* 恢復：只保留向上跳 */
     box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
 
@@ -368,7 +365,7 @@ section {
     text-decoration: none;
     font-family: 'MF', sans-serif;
     font-size: 0.9rem;
-    padding: 12px 20px;
+    padding: 10px 8px; /* 🚀 修正: 調整 padding 以縮短按鈕 */
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -389,8 +386,13 @@ section {
     transform: translateY(-2px); /* 輕微抬升 */
 }
 
+/* 🚀 修正: 確保文字顯示 */
+.back-to-earth-btn .text {
+    display: inline; /* 確保文字顯示 */
+}
+
 .back-to-earth-btn .icon {
-    margin-left: 8px;
+    margin-left: 8px; /* 🚀 修正: 恢復圖標左側間距 */
     font-size: 1.2rem;
     line-height: 1;
     /* 讓地球圖標輕微旋轉或呼吸 */
@@ -407,25 +409,14 @@ section {
         bottom: 20px;
         right: 20px;
         font-size: 0.8rem;
-        padding: 10px 15px;
+        padding: 10px 15px; /* 🚀 修正: 響應式下的 padding 也縮短 */
     }
-}
-
-.spotlight-titles h1 {
-    color: #fff;
-    opacity: 0; /* 初始隱藏，由 JS 控制淡入淡出 */
-    transition: opacity 0.8s ease; /* 和斜線淡入同步 */
-    cursor: pointer;
-    font-family: MF;
-    font-size: 2.7rem;
-}
-
-/* hover 懸停效果保留 */
-@media (hover: hover) {
-    .spotlight-titles h1:hover{
-        opacity: 1 !important;
-        text-decoration: underline;
-        text-underline-offset: 6px;
-        text-decoration-thickness: 2px;
+    /* 針對小螢幕，如果按鈕仍太長，可以考慮縮小文字或再調整 padding */
+    .back-to-earth-btn .text {
+        font-size: 0.75rem; /* 小螢幕下文字更小一點 */
+    }
+    .back-to-earth-btn .icon {
+        font-size: 1rem;
+        margin-left: 5px;
     }
 }
