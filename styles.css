@@ -1,3 +1,26 @@
+.logo {
+    /* 可選：設置字體大小讓 emoji 更明顯 */
+    font-size: 35px; 
+
+    /* 設置過渡效果：讓所有 transform 變化在 0.5 秒內平滑完成 */
+    transition: transform 0.5s ease-in-out; 
+
+    /* 確保元素可以被鼠標點擊/懸停，並使 transform 生效 */
+    display: inline-block; 
+
+    /* 可選：讓元素可以點擊 */
+    cursor: pointer; 
+}
+.logo:hover {
+    /* 旋轉 360 度 (完整一圈) */
+    transform: rotate(720deg);
+
+    /* 如果你想旋轉更多圈，可以設置更大的角度，例如：
+    transform: rotate(720deg); 
+    */
+}
+
+
 body {
   margin: 0;
   overflow-x: hidden;
@@ -127,14 +150,15 @@ nav {
   justify-content: center;
   width: 220px;
   padding: 12px 24px;
-  background: #000;      /* 黑色底 */
-  color: #fff;           /* 白色文字 */
-  
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.05); /* 輕微透明的背景 */
+    backdrop-filter: blur(5px); /* 高級感磨砂玻璃效果 */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 細緻的邊框 */
+    border-radius: 50px; /* 圓角膠囊形狀 */
+    color: #fff;          /* 白色文字 */
   text-decoration: none;
   font-weight: 700;
   margin: 1rem auto 0;
+  font-family: MF;
 
   /* 平滑過渡 */
   transition: transform 200ms cubic-bezier(.2,.9,.3,1), 
@@ -156,12 +180,15 @@ nav {
   font-size: 1.06em;
   padding: 16px 32px;
   /* 顏色與下底線視覺 */
-  background: rgb(51, 0, 51);
-  text-decoration: underline;
+  
   text-underline-offset: 6px;
   text-decoration-thickness: 2px;
   box-shadow: 0 28px 60px rgba(0,0,0,0.26);
   font-family: 'MF', sans-serif;
+  background-color: rgba(255, 255, 255, 0.15); /* 提升亮度 */
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px); /* 輕微抬升 */
+
 }
 
 /* 點擊回饋 */
@@ -197,7 +224,7 @@ nav {
   
   
   border: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   text-decoration: none;
   font-weight: 700;
   
@@ -206,9 +233,9 @@ nav {
   font-family: MF;
     background-color: rgba(255, 255, 255, 0.05); /* 輕微透明的背景 */
     backdrop-filter: blur(5px); /* 高級感磨砂玻璃效果 */
-    border: 1px solid rgba(0, 0, 0, 0.5); /* 細緻的邊框 */
+    border: 1px solid rgba(255, 255, 255, 0.5); /* 細緻的邊框 */
     border-radius: 50px; /* 圓角膠囊形狀 */
-    color: #000000;
+    color: #ffffff;
     text-decoration: none;
     font-size: 0.9rem;
     padding: 12px 20px;

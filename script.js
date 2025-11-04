@@ -1,4 +1,4 @@
-const frameCount = 139;
+const frameCount = 130;
 const currentFrame = index =>
   `./MWMW/MWMW${(index + 1).toString().padStart(3, '0')}.jpg`;
 
