@@ -1,6 +1,6 @@
 const frameCount = 130;
 const currentFrame = index =>
-  `./MWMW/MWMW${(index + 1).toString().padStart(3, '0')}.jpg`;
+  `./TEST/FFF${(index + 1).toString().padStart(3, '0')}.jpg`;
 
 let images = [];
 let videoFrames = { frame: 0 };

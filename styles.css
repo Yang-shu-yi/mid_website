@@ -13,11 +13,7 @@
 }
 .logo:hover {
     /* 旋轉 360 度 (完整一圈) */
-    transform: rotate(720deg);
-
-    /* 如果你想旋轉更多圈，可以設置更大的角度，例如：
-    transform: rotate(720deg); 
-    */
+    transform: rotate(360deg);
 }
 
 
