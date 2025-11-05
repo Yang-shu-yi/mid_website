@@ -206,11 +206,11 @@ section {
 }
 
 .planet-gallery {
-    margin: 0.7rem auto 0;
+    margin: 1rem auto 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 欄 */
     grid-auto-rows: minmax(200px, 250px); 
-    gap: 2.5rem;
+    gap: 5rem;
     align-items: start;
     max-width: 1280px; 
 }
@@ -420,3 +420,22 @@ section {
         margin-left: 5px;
     }
 }
+
+/* -------------------------------------- */
+/* 點擊 Spotlight 標題後的縮圖放大／縮回效果 */
+/* -------------------------------------- */
+
+@keyframes thumbPulse {
+  0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(255,255,255,.35); }
+  45%  { transform: scale(1.5); box-shadow: 0 0 0 12px rgba(255,255,255,.25); }
+  100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+.planet-thumb.thumb-ping {
+  animation: thumbPulse .75s ease-out forwards;
+  z-index: 3; /* 放大時蓋過周遭元素 */
+  will-change: transform, box-shadow;
+}
+
+/* 放大縮回效果時避免被格線裁切 */
+.planet-gallery { overflow: visible; }

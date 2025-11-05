@@ -318,3 +318,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // 立即執行一次，檢查初始位置
     scrollHandler(); 
 });
+
+// 點擊 Spotlight 標題 → 滾動到 outro 對應縮圖並做 1.5x 放大回彈
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var titlesWrap = document.querySelector('.spotlight-titles');
+    if (!titlesWrap) return;
+
+    var scrollToThumbByName = function (name) {
+      if (!name) return;
+      var target = document.querySelector('.outro .planet-thumb[aria-label="' + name + '"]');
+      if (!target) return;
+
+      try {
+        if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+          window.lenis.scrollTo(target, { offset: -window.innerHeight * 0.25, duration: 1.1 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } catch (e) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      setTimeout(function () {
+        target.classList.add('thumb-ping');
+        target.addEventListener('animationend', function () {
+          target.classList.remove('thumb-ping');
+        }, { once: true });
+      }, 1100);
+    };
+
+    titlesWrap.addEventListener('click', function (e) {
+      var h1 = e.target.closest && e.target.closest('h1');
+      if (!h1) return;
+      var name = (h1.textContent || '').trim();
+      scrollToThumbByName(name);
+    });
+  });
+})();
