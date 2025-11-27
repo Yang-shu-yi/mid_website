@@ -21,13 +21,8 @@ body {
   margin: 0;
   overflow-x: hidden;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-}
-
-/* 主視覺區域 (hero) */
-.hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+  background-color: #000; /* 防止滾動時露出白底 */
+  color: #fff;
 }
 
 /* 畫布背景設定 */
@@ -38,7 +33,8 @@ canvas {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  
+  background-color: #000; /* 畫布預設底色，避免短暫白閃 */
+  display: block;
 }
 
 /* 導覽列樣式 */
