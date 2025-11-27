@@ -186,6 +186,22 @@ document.addEventListener('DOMContentLoaded', () => {
   setCanvasSize();
   window.addEventListener('resize', setCanvasSize);
 
+  // --- 新增：立即載入並繪製第一張影格作為佔位，避免剛開頁面時畫布為空白 ---
+  (function drawPlaceholderFirstFrame() {
+    const placeholder = new Image();
+    placeholder.onload = () => {
+      // 放到 images[0]，render() 會用它繪製
+      images[0] = placeholder;
+      render();
+    };
+    placeholder.onerror = () => {
+      console.warn('Placeholder frame failed to load:', currentFrame(0));
+    };
+    // 第一張影格路徑
+    placeholder.src = currentFrame(0);
+  })();
+  // --- /新增 ---
+
   // 預載入影格圖片
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
