@@ -16,7 +16,7 @@ const PlanetCard = ({ planet, index }) => {
             {/* 圖片區 */}
             <div className="flex-1 w-full flex justify-center items-center relative group">
                 <div className={`absolute inset-0 bg-gradient-to-r ${planet.color} opacity-20 blur-[100px] rounded-full group-hover:opacity-40 transition-opacity duration-700`}></div>
-                
+
                 {imgError ? (
                     <div className={`w-64 h-64 md:w-96 md:h-96 rounded-full bg-gradient-to-br ${planet.color} opacity-80 shadow-[0_0_50px_rgba(255,255,255,0.2)] flex items-center justify-center z-10 border-2 border-white/10 relative`}>
                         <span className="text-4xl font-display font-bold text-white/20 tracking-widest">
@@ -24,7 +24,7 @@ const PlanetCard = ({ planet, index }) => {
                         </span>
                     </div>
                 ) : (
-                    <motionPlanet.img 
+                    <motionPlanet.img
                         whileHover={{ scale: 1.05, rotate: 5 }}
                         transition={{ duration: 0.5 }}
                         src={planet.imageUrl}
@@ -34,12 +34,21 @@ const PlanetCard = ({ planet, index }) => {
                     />
                 )}
                 <div className="absolute w-[120%] h-[120%] border border-white/5 rounded-full animate-spin-slow"></div>
+
+                {/* Astronaut Link */}
+                <a
+                    href={`./history.html?planet=${planet.id}`}
+                    className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-20 text-4xl hover:scale-125 transition-transform cursor-pointer"
+                    title={`View ${planet.name} visit history`}
+                >
+                    👩‍🚀
+                </a>
             </div>
 
             {/* 文字區 */}
             <div className="flex-1 space-y-6 text-center md:text-left z-10">
                 <div className="inline-block px-3 py-1 border border-white/20 rounded-full text-xs font-mono text-space-accent mb-2">
-                   ID: {planet.id.toUpperCase()}_SYS
+                    ID: {planet.id.toUpperCase()}_SYS
                 </div>
                 <h2 className="text-6xl md:text-8xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">
                     {planet.name}
@@ -47,7 +56,7 @@ const PlanetCard = ({ planet, index }) => {
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed">
                     {planet.description}
                 </p>
-                
+
                 <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
                     <div>
                         <span className="block text-gray-500 text-sm font-display uppercase">Distance</span>
