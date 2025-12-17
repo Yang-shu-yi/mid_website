@@ -57,7 +57,7 @@ const HistoryTimeline = ({ planetId }) => {
                         ))
                     ) : (
                         <div className="text-center text-gray-500 py-20 font-mono">
-                            NO RECORDED HUMAN VISIT HISTORY FOR THIS SYSTEM.
+                            暫無資訊
                         </div>
                     )}
                 </div>
