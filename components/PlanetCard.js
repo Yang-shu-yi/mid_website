@@ -11,15 +11,15 @@ const PlanetCard = ({ planet, index }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className={`flex flex-col md:flex-row ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 py-24 min-h-[80vh] px-6 max-w-7xl mx-auto`}
+            className={`flex flex-col md:flex-row ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12 py-16 md:py-24 min-h-[60vh] md:min-h-[80vh] px-4 md:px-6 max-w-7xl mx-auto`}
         >
             {/* 圖片區 */}
             <div className="flex-1 w-full flex justify-center items-center relative group">
-                <div className={`absolute inset-0 bg-gradient-to-r ${planet.color} opacity-20 blur-[100px] rounded-full group-hover:opacity-40 transition-opacity duration-700`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-r ${planet.color} opacity-20 blur-[60px] md:blur-[100px] rounded-full group-hover:opacity-40 transition-opacity duration-700`}></div>
 
                 {imgError ? (
-                    <div className={`w-64 h-64 md:w-96 md:h-96 rounded-full bg-gradient-to-br ${planet.color} opacity-80 shadow-[0_0_50px_rgba(255,255,255,0.2)] flex items-center justify-center z-10 border-2 border-white/10 relative`}>
-                        <span className="text-4xl font-display font-bold text-white/20 tracking-widest">
+                    <div className={`w-48 h-48 md:w-96 md:h-96 rounded-full bg-gradient-to-br ${planet.color} opacity-80 shadow-[0_0_50px_rgba(255,255,255,0.2)] flex items-center justify-center z-10 border-2 border-white/10 relative`}>
+                        <span className="text-2xl md:text-4xl font-display font-bold text-white/20 tracking-widest">
                             {planet.name.substring(0, 3)}
                         </span>
                     </div>
@@ -30,7 +30,7 @@ const PlanetCard = ({ planet, index }) => {
                         src={planet.imageUrl}
                         alt={planet.name}
                         onError={() => setImgError(true)}
-                        className="w-64 h-64 md:w-96 md:h-96 rounded-full object-cover shadow-[0_0_50px_rgba(0,0,0,0.5)] grayscale group-hover:grayscale-0 transition-all duration-700 z-10 border-2 border-white/10 relative"
+                        className="w-48 h-48 md:w-96 md:h-96 rounded-full object-cover shadow-[0_0_50px_rgba(0,0,0,0.5)] grayscale group-hover:grayscale-0 transition-all duration-700 z-10 border-2 border-white/10 relative"
                     />
                 )}
                 <div className="absolute w-[120%] h-[120%] border border-white/5 rounded-full animate-spin-slow"></div>
@@ -38,37 +38,37 @@ const PlanetCard = ({ planet, index }) => {
                 {/* Probe Link */}
                 <a
                     href={`./history.html?planet=${planet.id}`}
-                    className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-20 hover:scale-125 transition-transform cursor-pointer"
+                    className="absolute -right-2 md:-right-4 top-1/2 transform -translate-y-1/2 z-20 hover:scale-125 transition-transform cursor-pointer"
                     title={`View ${planet.name} exploration history`}
                 >
-                    <img src="./img/probe_icon.png" alt="Probe" className="w-12 h-12 opacity-80 hover:opacity-100 transition-opacity" />
+                    <img src="./img/probe_icon.png" alt="Probe" className="w-8 h-8 md:w-12 md:h-12 opacity-80 hover:opacity-100 transition-opacity" />
                 </a>
             </div>
 
             {/* 文字區 */}
-            <div className="flex-1 space-y-6 text-center md:text-left z-10">
-                <div className="inline-block px-3 py-1 border border-white/20 rounded-full text-xs font-mono text-space-accent mb-2">
+            <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left z-10 w-full">
+                <div className="inline-block px-3 py-1 border border-white/20 rounded-full text-[10px] md:text-xs font-mono text-space-accent mb-2">
                     ID: {planet.id.toUpperCase()}_SYS
                 </div>
-                <h2 className="text-6xl md:text-8xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">
+                <h2 className="text-5xl md:text-8xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">
                     {planet.name}
                 </h2>
-                <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed">
+                <p className="text-base md:text-2xl text-gray-300 font-light leading-relaxed">
                     {planet.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
+                <div className="grid grid-cols-2 gap-4 pt-4 md:pt-6 border-t border-white/10">
                     <div>
-                        <span className="block text-gray-500 text-sm font-display uppercase">Distance</span>
-                        <span className="text-lg font-mono text-white">{planet.distance}</span>
+                        <span className="block text-gray-500 text-xs md:text-sm font-display uppercase">Distance</span>
+                        <span className="text-sm md:text-lg font-mono text-white">{planet.distance}</span>
                     </div>
                     <div>
-                        <span className="block text-gray-500 text-sm font-display uppercase">Temperature</span>
-                        <span className="text-lg font-mono text-white">{planet.temp}</span>
+                        <span className="block text-gray-500 text-xs md:text-sm font-display uppercase">Temperature</span>
+                        <span className="text-sm md:text-lg font-mono text-white">{planet.temp}</span>
                     </div>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed pt-4 border-l-2 border-space-accent pl-4">
+                <p className="text-gray-400 text-xs md:text-sm leading-relaxed pt-2 md:pt-4 border-l-2 border-space-accent pl-4 text-left">
                     {planet.details}
                 </p>
             </div>
