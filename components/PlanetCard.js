@@ -35,13 +35,13 @@ const PlanetCard = ({ planet, index }) => {
                 )}
                 <div className="absolute w-[120%] h-[120%] border border-white/5 rounded-full animate-spin-slow"></div>
 
-                {/* Astronaut Link */}
+                {/* Probe Link */}
                 <a
                     href={`./history.html?planet=${planet.id}`}
-                    className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-20 text-4xl hover:scale-125 transition-transform cursor-pointer"
-                    title={`View ${planet.name} visit history`}
+                    className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-20 hover:scale-125 transition-transform cursor-pointer"
+                    title={`View ${planet.name} exploration history`}
                 >
-                    👩‍🚀
+                    <img src="./img/probe_icon.png" alt="Probe" className="w-12 h-12 opacity-80 hover:opacity-100 transition-opacity" />
                 </a>
             </div>
 

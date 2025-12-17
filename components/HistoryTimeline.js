@@ -17,10 +17,10 @@ const HistoryTimeline = ({ planetId }) => {
                 className="text-center mb-16"
             >
                 <div className="inline-block px-3 py-1 border border-white/20 rounded-full text-xs font-mono text-space-accent mb-4">
-                    MISSION LOGS
+                    EXPLORATION LOGS
                 </div>
                 <h1 className={`text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b ${planetInfo.color.replace('from-', 'from-white ').replace('to-', 'to-')}`}>
-                    {planetInfo.name} HISTORY
+                    {planetInfo.name} EXPLORATION
                 </h1>
             </motionTimeline.div>
 
