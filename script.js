@@ -3,7 +3,7 @@ const currentFrame = index =>
   `./TEST/FFF${(index + 1).toString().padStart(3, '0')}.jpg`;
 
 let images = [];
-let videoFrames = { frame: 0 };
+let videoFrames = { frame: frameCount - 1 };
 let imagesToLoad = frameCount;
 let hasAutoScrolled = false;
 
@@ -190,15 +190,15 @@ document.addEventListener('DOMContentLoaded', () => {
   (function drawPlaceholderFirstFrame() {
     const placeholder = new Image();
     placeholder.onload = () => {
-      // 放到 images[0]，render() 會用它繪製
-      images[0] = placeholder;
+      // 放到最後一張影格的位置，render() 會用它繪製
+      images[frameCount - 1] = placeholder;
       render();
     };
     placeholder.onerror = () => {
-      console.warn('Placeholder frame failed to load:', currentFrame(0));
+      console.warn('Placeholder frame failed to load:', currentFrame(frameCount - 1));
     };
-    // 第一張影格路徑
-    placeholder.src = currentFrame(0);
+    // 使用最後一張影格路徑作為預覽
+    placeholder.src = currentFrame(frameCount - 1);
   })();
   // --- /新增 ---
 
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     img.onload = onLoad;
     img.onerror = () => { onLoad(); };
     img.src = currentFrame(i);
-    images.push(img);
+    images[i] = img;
   }
 
   // 簡單的互動：滑鼠進入/離開或鍵盤 focus/blur 時切換 hero-content 的放大 class
